@@ -57,14 +57,20 @@ const userController = {
         nest: true,
         raw: true
       }),
-      User.findByPk(userId, { raw: true })
+      User.findByPk(userId, {
+        include: [
+          { model: Restaurant, as: 'FavoritedRestaurants' },
+          { model: User, as: 'Followers' },
+          { model: User, as: 'Followings' }
+        ]
+      })
     ])
       .then(([comments, user]) => {
         if (!user) throw new Error("User didn't exist!")
 
         return res.render('users/profile', {
-          user,
-          comments
+          comments,
+          user: user.toJSON()
         })
       })
       .catch(err => next(err))
