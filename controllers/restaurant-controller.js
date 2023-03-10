@@ -38,7 +38,8 @@ const restaurantController = {
           restaurants: data,
           categories,
           categoryId,
-          pagination: getPagination(limit, page, restaurants.count)
+          pagination: getPagination(limit, page, restaurants.count),
+          reqUser: req.user
         })
       })
       .catch(err => next(err)) // 補上
@@ -65,7 +66,8 @@ const restaurantController = {
         return res.render('restaurant', {
           restaurant: restaurant.toJSON(),
           isFavorited,
-          isLike
+          isLike,
+          reqUser: req.user
         })
       })
       .catch(err => next(err))
@@ -81,7 +83,8 @@ const restaurantController = {
       .then(restaurant => {
         if (!restaurant) throw new Error("Restaurant didn't exist!")
         res.render('dashboard', {
-          restaurant: restaurant.toJSON()
+          restaurant: restaurant.toJSON(),
+          reqUser: req.user
         })
       })
       .catch(err => next(err))
@@ -106,7 +109,8 @@ const restaurantController = {
       .then(([restaurants, comments]) => {
         res.render('feeds', {
           restaurants,
-          comments
+          comments,
+          reqUser: req.user
         })
       })
       .catch(err => next(err))
@@ -127,7 +131,10 @@ const restaurantController = {
           .sort((a, b) => b.favoritedCount - a.favoritedCount)
           .slice(0, limit)
 
-        res.render('top-restaurants', { restaurants: result })
+        res.render('top-restaurants', {
+          restaurants: result,
+          reqUser: req.user
+        })
       })
       .catch(err => next(err))
   }

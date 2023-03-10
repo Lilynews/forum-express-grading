@@ -9,7 +9,8 @@ const categoryController = {
       .then(([categories, category]) => {
         res.render('admin/categories', {
           categories,
-          category
+          category,
+          reqUser: req.user
         })
       })
       .catch(err => next(err))

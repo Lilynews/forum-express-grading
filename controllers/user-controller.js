@@ -70,7 +70,8 @@ const userController = {
 
         return res.render('users/profile', {
           comments,
-          user: user.toJSON()
+          user: user.toJSON(),
+          reqUser: req.user
         })
       })
       .catch(err => next(err))
@@ -83,7 +84,10 @@ const userController = {
     return User.findByPk(userId, { raw: true })
       .then(user => {
         if (!user) throw new Error("User didn't exist!")
-        return res.render('users/edit', { user })
+        return res.render('users/edit', {
+          user,
+          reqUser: req.user
+        })
       })
       .catch(err => next(err))
   },
@@ -208,7 +212,7 @@ const userController = {
           .sort(
             (a, b) => b.followerCount - a.followerCount)
 
-        res.render('top-users', { users: result, reqUser: req.user.id })
+        res.render('top-users', { users: result, reqUser: req.user })
       })
       .catch(err => next(err))
   },

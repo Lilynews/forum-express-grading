@@ -1,8 +1,11 @@
 <div class="row mb-5">
-  <div class="col-md-12">
+  <div class="col-6">
     <h1>{{restaurant.name}}</h1>
-    <p>[{{restaurant.Category.name}}]</p>
   </div>
+  <div class="col-6 d-flex justify-content-end align-items-center">
+    <a class="btn btn-outline-secondary" href="javascript:history.back()">Back</a>
+  </div>
+  <p>[{{restaurant.Category.name}}]</p>
   <hr>
   <ul>
     <li>
@@ -15,4 +18,3 @@
       <p>收藏數：{{restaurant.FavoritedUsers.length}}</p>
     </li>
   </ul>
-  <a href="javascript:history.back()">回上一頁</a>

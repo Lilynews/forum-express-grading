@@ -9,14 +9,14 @@ const adminController = {
       nest: true, // 做關聯的 category 物件 key 名字簡單化
       include: [Category]
     })
-      .then(restaurants => res.render('admin/restaurants', { restaurants }))
+      .then(restaurants => res.render('admin/restaurants', { restaurants, reqUser: req.user }))
       .catch(err => next(err))
   },
   createRestaurant: (req, res, next) => {
     return Category.findAll({
       raw: true
     })
-      .then(categories => res.render('admin/create-restaurant', { categories }))
+      .then(categories => res.render('admin/create-restaurant', { categories, reqUser: req.user }))
       .catch(err => next(err))
   },
   postRestaurant: (req, res, next) => {
@@ -56,7 +56,7 @@ const adminController = {
       .then(restaurant => {
         if (!restaurant) throw new Error("Restaurant didn't exist!")
         // if cannot find, throw error message and end of this code
-        res.render('admin/restaurant', { restaurant })
+        res.render('admin/restaurant', { restaurant, reqUser: req.user })
       })
       .catch(err => next(err))
   },
@@ -68,7 +68,7 @@ const adminController = {
     ])
       .then(([restaurant, categories]) => {
         if (!restaurant) throw new Error("Restaurant doesn't exist!")
-        res.render('admin/edit-restaurant', { restaurant, categories })
+        res.render('admin/edit-restaurant', { restaurant, categories, reqUser: req.user })
       })
       .catch(err => next(err))
   },
@@ -120,7 +120,7 @@ const adminController = {
     return User.findAll({
       raw: true
     })
-      .then(users => res.render('admin/users', { users }))
+      .then(users => res.render('admin/users', { users, reqUser: req.user }))
       .catch(err => next(err))
   },
   patchUser: (req, res, next) => {
